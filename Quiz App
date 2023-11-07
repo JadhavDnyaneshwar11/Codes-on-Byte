@@ -1,0 +1,125 @@
+-----------------------------Html----------------------
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz App</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div id="quiz-container">
+        <h1>Quiz App</h1>
+        <p id="question"></p>
+        <ul id="choices">
+            <li><button onclick="checkAnswer(0)"></button></li>
+            <li><button onclick="checkAnswer(1)"></button></li>
+            <li><button onclick="checkAnswer(2)"></button></li>
+            <li><button onclick="checkAnswer(3)"></button></li>
+        </ul>
+    </div>
+    <div id="result"></div>
+    <script src="quiz.js"></script>
+</body>
+</html>
+
+
+
+
+------------------------CSS-------------------------------
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+#quiz-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin: 10px 0;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+#result {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+
+
+
+-------------------------------Javascript---------------
+
+const questions = [
+    {
+        question: "What is the capital of France?",
+        choices: ["London", "Berlin", "Madrid", "Paris"],
+        correctAnswer: 3,
+    },
+    {
+        question: "Which planet is known as the Red Planet?",
+        choices: ["Mars", "Earth", "Venus", "Jupiter"],
+        correctAnswer: 0,
+    },
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+function loadQuestion() {
+    const questionElement = document.getElementById("question");
+    const choicesElement = document.getElementById("choices");
+    const currentQ = questions[currentQuestion];
+
+    questionElement.textContent = currentQ.question;
+    currentQ.choices.forEach((choice, index) => {
+        const choiceButton = choicesElement.getElementsByTagName("button")[index];
+        choiceButton.textContent = choice;
+    });
+}
+
+function checkAnswer(choice) {
+    const currentQ = questions[currentQuestion];
+    if (choice === currentQ.correctAnswer) {
+        score++;
+    }
+
+    currentQuestion++;
+    if (currentQuestion < questions.length) {
+        loadQuestion();
+    } else {
+        showResult();
+    }
+}
+
+function showResult() {
+    const resultElement = document.getElementById("result");
+    resultElement.textContent = `You scored ${score} out of ${questions.length}!`;
+}
+
+loadQuestion();
